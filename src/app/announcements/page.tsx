@@ -1,27 +1,7 @@
-"use client";
-
-import { useState } from "react";
-import { announcements, typeLabels, type AnnouncementType } from "@/data/announcements";
-
-type FilterType = "all" | AnnouncementType;
+import { announcements, typeLabels } from "@/data/announcements";
 
 export default function AnnouncementsPage() {
-  const [filter, setFilter] = useState<FilterType>("all");
-
-  const filtered =
-    filter === "all"
-      ? announcements
-      : announcements.filter((a) => a.type === filter);
-
   const unreadCount = announcements.filter((a) => a.unread).length;
-
-  const filters: { key: FilterType; label: string }[] = [
-    { key: "all", label: `すべて (${announcements.length})` },
-    { key: "maintenance", label: "メンテナンス" },
-    { key: "new-service", label: "新機能" },
-    { key: "update", label: "アップデート" },
-    { key: "general", label: "お知らせ" },
-  ];
 
   return (
     <>
@@ -43,20 +23,8 @@ export default function AnnouncementsPage() {
       </div>
 
       <div className="content">
-        <div className="tabs">
-          {filters.map((f) => (
-            <button
-              key={f.key}
-              className={`tabs__item ${filter === f.key ? "tabs__item--active" : ""}`}
-              onClick={() => setFilter(f.key)}
-            >
-              {f.label}
-            </button>
-          ))}
-        </div>
-
         <div className="announcements-list">
-          {filtered.map((item) => (
+          {announcements.map((item) => (
             <div key={item.id} className="announcement-item">
               <div className="announcement-item__content">
                 <div className="announcement-item__meta">
